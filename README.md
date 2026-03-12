@@ -1,6 +1,6 @@
 # 📝 IoT Data Scraper (Python + Playwright)
 
-[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Framework%20version-dotnet%209-blue)]([https://www.python.org/downloads/](https://dotnet.microsoft.com/en-us/download/dotnet/9.0))
 [![Playwright](https://img.shields.io/badge/framework-Playwright-green.svg)](https://playwright.dev/python/)
 [![Architecture](https://img.shields.io/badge/design-Page%20Object%20Model-orange.svg)]()
 
