@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # Mensageria
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: iot-message-broker
+    ports:
+      - "5672:5672"   # Dados
+      - "15672:15672" # Painel (guest/guest)
+    networks:
+      - iot-network
+
+  # Dashboard de Logs
+  seq:
+    image: datalust/seq:latest
+    container_name: iot-logs
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "8081:80"     # Interface Web
+      - "5341:5341"   # Ingestão de logs
+    networks:
+      - iot-network
+
+  # API Principal
+  data.service:
+    build:
+      context: .
+      dockerfile: src/Services/Data.Service/Dockerfile
+    container_name: iot-data-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RabbitMqSettings__Host=rabbitmq
+      - SeqSettings__ServerUrl=http://seq:5341
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+      - seq
+    networks:
+      - iot-network
+
+  # Scraper
+  scraper.service:
+    build:
+      context: .
+      dockerfile: src/Services/Scraper.Service/Dockerfile
+    container_name: iot-scraper-worker
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - RabbitMqSettings__Host=rabbitmq
+      - SeqSettings__ServerUrl=http://seq:5341
+    depends_on:
+      - rabbitmq
+      - seq
+    networks:
+      - iot-network
+
+networks:
+  iot-network:
+    driver: bridge

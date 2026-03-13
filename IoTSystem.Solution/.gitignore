@@ -1,0 +1,24 @@
+# .NET
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+*.user
+*.userosscache
+*.sln.doccache
+
+# IDEs
+.visualstudio/
+.vs/
+.idea/
+.vscode/
+
+# Segredos e Configurações
+.env
+appsettings.Development.json
+usersecrets.json
+
+# Docker & Logs
+logs/
+data/
+*.log
